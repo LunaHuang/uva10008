@@ -34,13 +34,36 @@ void append(struct Node** head, char letter, int count)
 		return;
 	}
 
+	struct Node *tmp = new Node;
+	tmp->next = nullptr;
 	while (last->next != nullptr){
+//		std::cout << "last "<< last->letter << " "<<last->count<<std::endl;
+//		std::cout << "newNode "<< newNode->letter << " "<<newNode->count<<std::endl;
+		if(last->count >= newNode->count){
+			tmp = last;
 			last = last->next;
+		}else{
+			newNode->next = last;
+			if(tmp->next == nullptr){
+				*head = newNode;
+			}else{
+				tmp->next = newNode;
+			}
+			while (last->next != nullptr)
+				last = last->next;
+			return;
+		}
 	}
 
-	last->next = newNode;
+	if(last->count >= newNode->count){
+		last->next = newNode;
+	}else{
+		tmp->next = newNode;
+		newNode->next = last;
+	}
 	return;
 }
+
 
 void displayList(struct Node *node)
 {
@@ -49,9 +72,7 @@ void displayList(struct Node *node)
 		std::cout<< node->letter << " "<<node->count<<std::endl;
 		node = node->next;
 	}
- 
-	if(node== nullptr)
-		std::cout<<"null"; 
+//	std::cout<<std::endl;
 }
 
 void order_serial(const std::string &input)
@@ -73,7 +94,7 @@ void order_serial(const std::string &input)
 			if( i == (n-1))
 				append(&head, char_array[i], count);
 		}
-    //    cout << char_array[i];
+
 	}
 	displayList(head);
 }
@@ -96,7 +117,6 @@ void solve_uva_problem(std::istream &is)
 		return;
 
     std::string analysis_string;
-//	std::cout<<std::endl;
 	int row = std::stoi(input);
 	while(row != 0){
 		input.clear();
@@ -108,7 +128,7 @@ void solve_uva_problem(std::istream &is)
 	}
 	
 	std::sort(analysis_string.begin(), analysis_string.end());
-	std::cout << "match :" << analysis_string << std::endl;
+	//std::cout << "match :" << analysis_string << std::endl;
 	order_serial(analysis_string);
 }
 
