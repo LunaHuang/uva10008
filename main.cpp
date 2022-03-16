@@ -5,9 +5,8 @@
 #include <regex>
 #include <cctype>
 #include <boost/range/algorithm/remove_if.hpp>
-//#include <boost/lexical_cast.hpp>
 
-#if !defined(WITH_GTEST)
+#if defined(WITH_GTEST)
 #   include <gtest/gtest.h>
 #endif
 
