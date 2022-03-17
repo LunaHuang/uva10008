@@ -133,7 +133,7 @@ void solve_uva_problem(std::istream &is)
 
 int main(int argc, char ** argv)
 {
-#if defined(WITH_GTEST)
+#if !defined(WITH_GTEST)
     solve_uva_problem(std::cin);
 #else
     testing::InitGoogleTest(&argc, argv);
