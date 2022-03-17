@@ -17,7 +17,11 @@ struct Node
    struct Node *next;
 };
 
-/* insert new node at the end of the linked list */
+/* 
+ * when new node count is less (or egual)than compare node
+ * insert new node at the end of the compare node
+ * otherwise insert ad the first of the compare node
+ */
 void append(struct Node** head, char letter, int count)
 {
 	struct Node* newNode = new Node;
@@ -36,18 +40,16 @@ void append(struct Node** head, char letter, int count)
 	struct Node *tmp = new Node;
 	tmp->next = nullptr;
 	while (last->next != nullptr){
-//		std::cout << "last "<< last->letter << " "<<last->count<<std::endl;
-//		std::cout << "newNode "<< newNode->letter << " "<<newNode->count<<std::endl;
 		if(last->count >= newNode->count){
 			tmp = last;
 			last = last->next;
 		}else{
 			newNode->next = last;
-			if(tmp->next == nullptr){
+			if(tmp->next == nullptr)
 				*head = newNode;
-			}else{
+			else
 				tmp->next = newNode;
-			}
+
 			while (last->next != nullptr)
 				last = last->next;
 			return;
@@ -57,24 +59,13 @@ void append(struct Node** head, char letter, int count)
 	if(last->count >= newNode->count){
 		last->next = newNode;
 	}else{
-		tmp->next = newNode;
 		newNode->next = last;
+		tmp->next = newNode;
 	}
 	return;
 }
 
-
-void displayList(struct Node *node)
-{
-	while (node != nullptr)
-	{
-		std::cout<< node->letter << " "<<node->count<<std::endl;
-		node = node->next;
-	}
-//	std::cout<<std::endl;
-}
-
-void order_serial(const std::string &input)
+void crypt_input_display_list(const std::string &input, std::ostream &os)
 {
 	int n = input.length();
     char char_array[n + 1];
@@ -93,12 +84,20 @@ void order_serial(const std::string &input)
 			if( i == (n-1))
 				append(&head, char_array[i], count);
 		}
-
 	}
-	displayList(head);
+
+	// show output
+	while (head != nullptr)
+	{
+		os << head->letter << " " << head->count << std::endl;
+		head = head->next;
+	}
 }
 
-std::string crypt_analysis(const std::string &original_input)
+/*
+ * [:alpha:] is mean alphabetic characters [A-Za-z] POSIX
+ */
+std::string character_filter(const std::string &original_input)
 {
 	std::regex rx("\[^[:alpha:]]+");
 	std::string input = original_input;
@@ -108,33 +107,40 @@ std::string crypt_analysis(const std::string &original_input)
 	return result;
 }
 
-void solve_uva_problem(std::istream &is)
+/*
+ * ToDo
+ * 1. get the number of lines which follow in the input
+ * 2. remove all of not Alphabetic characters on input lines and transform characters to upper
+ * 3. sort characters from A to Z
+ * 4. crypt the input to count the letter number and display
+ *
+ */
+
+void solve_uva_problem(std::istream & is, std::ostream & os)
 {
     std::string input;
 	std::getline(is, input);	
     if (input == "0")
 		return;
 
+	int row_lines = std::stoi(input);
     std::string analysis_string;
-	int row = std::stoi(input);
-	while(row != 0){
+	while(row_lines != 0){
 		input.clear();
 		std::getline(is, input);	
-		//std::cin.getline(input_string, sizeof(input_string));
-        //input.assign(input_string, sizeof(input_string));
-		analysis_string += crypt_analysis(input);
-		row--;
+		analysis_string += character_filter(input);
+		row_lines--;
 	}
 	
 	std::sort(analysis_string.begin(), analysis_string.end());
-	//std::cout << "match :" << analysis_string << std::endl;
-	order_serial(analysis_string);
+//	std::cout << "match :" << analysis_string << std::endl;
+	crypt_input_display_list(analysis_string, os);
 }
 
 int main(int argc, char ** argv)
 {
 #if !defined(WITH_GTEST)
-    solve_uva_problem(std::cin);
+    solve_uva_problem(std::cin, std::cout);
 #else
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
