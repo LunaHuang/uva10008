@@ -13,6 +13,8 @@ if(WITH_GTEST)
 endif()
 
 if(WITH_GTEST)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 add_executable(uva10008_unitest test.cpp)
 target_link_libraries(uva10008_unitest GTest::gtest)
 else()

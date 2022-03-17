@@ -39,8 +39,12 @@ void append(struct Node** head, char letter, int count)
 
 	struct Node *tmp = new Node;
 	tmp->next = nullptr;
-	while (last->next != nullptr){
+	while (1){
 		if(last->count >= newNode->count){
+			if(last->next == nullptr){
+				last->next = newNode;
+				return;
+			}
 			tmp = last;
 			last = last->next;
 		}else{
@@ -49,20 +53,9 @@ void append(struct Node** head, char letter, int count)
 				*head = newNode;
 			else
 				tmp->next = newNode;
-
-			while (last->next != nullptr)
-				last = last->next;
 			return;
 		}
 	}
-
-	if(last->count >= newNode->count){
-		last->next = newNode;
-	}else{
-		newNode->next = last;
-		tmp->next = newNode;
-	}
-	return;
 }
 
 void crypt_input_display_list(const std::string &input, std::ostream &os)
