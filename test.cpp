@@ -105,7 +105,7 @@ TEST(UVA10008Test, solve_uva_problem_file5)
 // test code reference from coldnew
 TEST(UVa10008Test, Solution) {
   auto Solve = [](std::istream& is) -> std::string {
-//    testing::internal::CaptureStdout();
+//    testing::internal::CaptureStdout(); can't get stdout display 
     std::ostringstream oss;
     solve_uva_problem(is,oss);
     //return testing::internal::GetCapturedStdout();
@@ -140,6 +140,8 @@ Solve(fake_cin));
   }
 }
 
+/*
+can't use  testing::internal::CaptureStdout(); can't get stdout display 
 TEST(UVa10008Test, Solution_2) {
   auto Solve = [](std::istream& is) -> std::string {
     testing::internal::CaptureStdout();
@@ -175,3 +177,44 @@ Y 1
 Solve(fake_cin));
   }
 }
+*/
+
+TEST(UVa10008Test, Solution_3)
+{
+	auto Solve = []() -> std::string{
+		std::ifstream fs("./data/file5");
+		std::ostringstream oss;
+		solve_uva_problem(fs,oss);
+		return std::string("\n") + oss.str();
+	};
+
+  {
+    EXPECT_EQ(
+	R"(
+O 21
+T 17
+A 16
+E 12
+H 12
+R 10
+S 10
+W 9
+Y 9
+L 8
+C 7
+D 7
+I 7
+M 6
+P 4
+U 4
+F 3
+K 3
+N 2
+V 2
+G 1
+X 1
+)",
+Solve());
+  }
+}
+
