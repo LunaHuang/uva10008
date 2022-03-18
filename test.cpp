@@ -101,3 +101,77 @@ TEST(UVA10008Test, solve_uva_problem_file5)
     solve_uva_problem(fs, oss);
     EXPECT_EQ("O 21\nT 17\nA 16\nE 12\nH 12\nR 10\nS 10\nW 9\nY 9\nL 8\nC 7\nD 7\nI 7\nM 6\nP 4\nU 4\nF 3\nK 3\nN 2\nV 2\nG 1\nX 1\n", oss.str());
 }
+
+// test code reference from coldnew
+TEST(UVa10008Test, Solution) {
+  auto Solve = [](std::istream& is) -> std::string {
+//    testing::internal::CaptureStdout();
+    std::ostringstream oss;
+    solve_uva_problem(is,oss);
+    //return testing::internal::GetCapturedStdout();
+    return std::string("\n") + oss.str();
+  };
+
+  {
+    std::stringstream fake_cin;
+    fake_cin << R"(3
+This is a test
+Count me 1 2 3 4 5
+Wow!!!! Is this question easy?)";
+
+    EXPECT_EQ(
+        R"(
+S 7
+T 6
+I 5
+E 4
+O 3
+A 2
+H 2
+N 2
+U 2
+W 2
+C 1
+M 1
+Q 1
+Y 1
+)",
+Solve(fake_cin));
+  }
+}
+
+TEST(UVa10008Test, Solution_2) {
+  auto Solve = [](std::istream& is) -> std::string {
+    testing::internal::CaptureStdout();
+    std::ostringstream oss;
+    solve_uva_problem(is,oss);
+    return oss.str();
+  };
+
+  {
+    std::stringstream fake_cin;
+    fake_cin << R"(3
+This is a test
+Count me 1 2 3 4 5
+Wow!!!! Is this question easy?)";
+
+    EXPECT_EQ(
+        R"(
+S 7
+T 6
+I 5
+E 4
+O 3
+A 2
+H 2
+N 2
+U 2
+W 2
+C 1
+M 1
+Q 1
+Y 1
+)",
+Solve(fake_cin));
+  }
+}
